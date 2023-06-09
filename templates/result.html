@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Plotter - Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .chart {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Data Plotter - Result</h1>
+        <table>
+            <tr>
+                <th>Averages</th>
+            </tr>
+            {% for average in averages %}
+            <tr>
+                <td>{{ average }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <div class="chart-container">
+            <div class="chart">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+        
+        <table>
+            <tr>
+                <th>Range</th>
+                <th>Count</th>
+                <th>Normalized Count</th>
+            </tr>
+            {% for i in range(x|length) %}
+
+            <tr>
+                <td>{{ x[i] }}</td>
+                <td>{{ y_new[i] }}</td>
+                <td>{{ normalized_y[i] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+        <div class="footer">
+            <p>Range Value: {{ range_value }}</p>
+            <p>Maximum Value of Average: {{ max_value }}</p>
+            <p>Total Number of Grains: {{ total_grains }}</p>
+        </div>
+    </div>
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ x|tojson }},
+                datasets: [{
+                    label: 'Count',
+                    data: {{ y_new|tojson }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#ddd'
+                        },
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
