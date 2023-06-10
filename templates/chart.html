@@ -1,0 +1,176 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table and Plot</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .chart {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center; 
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+        }
+        #chart-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7f7f7;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        button{
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover{
+            background-color: #80C080;
+        }
+    </style>
+</head>
+<body>
+
+    <table>
+        <tr>
+            <th>Range</th>
+            <th>Number of Grains</th>
+            <th>Number of Grains/Total Number of Grains</th>
+        </tr>
+        {% for i in range(x|length) %}
+
+        <tr>
+            <td>{{ x[i] }}</td>
+            <td>{{ y_new[i] }}</td>
+            <td>{{ normalized_y[i] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="chart-container">
+        <div class="chart">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+
+    <button onclick="copyChart()">Copy Chart</button>
+    
+    <div class="footer">
+        <p>Range Value: {{ range_value }}</p>
+        <p>Maximum Value of Average: {{ max_value }}</p>
+        <p>Total Number of Grains: {{ total_grains }}</p>
+    </div>
+
+
+    <script>
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ x|tojson }},
+                datasets: [
+                    {
+                        label: 'Normalized Count',
+                        data: {{ normalized_y|tojson }},
+                        type: 'bar',
+                        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Normalized Count',
+                        data: {{ normalized_y|tojson }},
+                        type: 'line',
+                        fill: false,
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 2,
+                        pointRadius: 0
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#ddd'
+                        },
+                        ticks: {
+                            stepSize: 0.1, // Adjust the step size as needed
+                            callback: function (value) {
+                                return (value * 100).toFixed(0) + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    
+        function copyChart() {
+        const canvas = document.getElementById('myChart');
+
+        canvas.toBlob(function (blob) {
+            navigator.clipboard.write([
+                new ClipboardItem({
+                    [blob.type]: blob
+                })
+            ]).then(function () {
+                alert('Chart copied to clipboard successfully!');
+            }).catch(function (error) {
+                console.error('Unable to copy chart: ', error);
+                alert('Failed to copy chart to clipboard.');
+            });
+        });
+    }
+    </script>
+    
+</body>
+</html>
+

@@ -83,14 +83,3 @@ input[type="submit"] {
 .output-item .filename {
     flex-grow: 1;
 }
-.output-item .remove-btn {
-    color: #FF3B3B;
-    cursor: pointer;
-}
-.output .output-item .remove-btn{
-    color: #FFFFFF;
-    background-color: rgb(143, 3, 3);
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-}
