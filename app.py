@@ -79,6 +79,43 @@ def chart():
 
     return render_template('chart.html', x=x_new, y_new=y_new.tolist(), normalized_y=y.tolist(), range_value=range_value, max_value=max_value, total_grains=total_grains)
 
+@app.route('/print', methods=["POST"])
+def print():
+    avg_dia = np.array(session['avg_dia'])
+    range_value = int(request.form['range'])
+    total_grains = len(avg_dia)
+
+    max_value = np.max(avg_dia)
+    rounded_value = math.ceil(max_value / 10) * 10
+
+    lower_bound = 0
+    upper_bound = rounded_value
+
+    x = []
+
+    while lower_bound < upper_bound:
+        range_label = f"{lower_bound}-{lower_bound+range_value}"
+        x.append(range_label)
+        lower_bound += range_value
+
+    x_new = x
+
+    num_ranges = upper_bound // range_value
+
+    count_array = [0] * num_ranges
+
+    for value in avg_dia:
+        lower_bound = int(value) // range_value * range_value
+        upper_bound_range = min(lower_bound + range_value, upper_bound)
+
+        range_index = lower_bound // range_value
+        count_array[range_index] += 1
+
+    y_new = np.array(count_array)
+    y = y_new / total_grains
+
+    return render_template('print.html', x=x_new, y_new=y_new.tolist(), normalized_y=y.tolist(), range_value=range_value, max_value=max_value, total_grains=total_grains)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

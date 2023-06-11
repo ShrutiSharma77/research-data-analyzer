@@ -55,29 +55,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        button{
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover{
-            background-color: #80C080;
-        }
-        .print-button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 10px;
-        }
-        .print-button:hover {
-            background-color: #80C080;
-        }
+        
     </style>
 </head>
 <body>
@@ -104,22 +82,7 @@
         </div>
     </div>
 
-    <button onclick="copyChart()">Copy Chart</button>
-    <form action="/print" method="POST">
-        <label for="range">Range:</label>
-        <input type="text" id="range" name="range">
-        <button type="submit">Print Chart</button>
-    </form>
-      
-
-    
-    
-    <div class="footer">
-        <p>Range Value: {{ range_value }}</p>
-        <p>Maximum Value of Average: {{ max_value }}</p>
-        <p>Total Number of Grains: {{ total_grains }}</p>
-    </div>
-
+   
 
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -172,26 +135,6 @@
             }
         });
     
-        function copyChart() {
-            const canvas = document.getElementById('myChart');
-
-            canvas.toBlob(function (blob) {
-                navigator.clipboard.write([
-                    new ClipboardItem({
-                        [blob.type]: blob
-                    })
-                ]).then(function () {
-                    alert('Chart copied to clipboard successfully!');
-                }).catch(function (error) {
-                    console.error('Unable to copy chart: ', error);
-                    alert('Failed to copy chart to clipboard.');
-                });
-            });
-        }
-        function redirectToPrintPage() {
-        window.location.href = '/print';
-    }
-        
     </script>
     
 </body>
