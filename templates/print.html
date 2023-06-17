@@ -62,7 +62,7 @@
 
     <table>
         <tr>
-            <th>Range</th>
+            <th>Range (µm)</th>
             <th>Number of Grains</th>
             <th>Number of Grains/Total Number of Grains</th>
         </tr>
@@ -92,7 +92,7 @@
                 labels: {{ x|tojson }},
                 datasets: [
                     {
-                        label: 'Normalized Count',
+                        label: 'Number Frequency',
                         data: {{ normalized_y|tojson }},
                         type: 'bar',
                         backgroundColor: 'rgba(54, 162, 235, 0.5)',
@@ -100,7 +100,7 @@
                         borderWidth: 1
                     },
                     {
-                        label: 'Normalized Count',
+                        label: 'Number Frequency',
                         data: {{ normalized_y|tojson }},
                         type: 'line',
                         fill: false,
@@ -125,7 +125,7 @@
                             color: '#ddd'
                         },
                         ticks: {
-                            stepSize: 0.5, // Adjust the step size as needed
+                            stepSize: 1, // Adjust the step size as needed
                             callback: function (value) {
                                 return (value).toFixed(0);
                             }
