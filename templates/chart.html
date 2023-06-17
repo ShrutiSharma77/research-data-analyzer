@@ -84,9 +84,9 @@
 
     <table>
         <tr>
-            <th>Range (µm)</th>
+            <th>Range  (µm)</th>
             <th>Number of Grains</th>
-            <th>Number of Grains/Total Grains</th>
+            <th>Number of Grains/Total Number of Grains</th>
         </tr>
         {% for i in range(x|length) %}
 
@@ -154,10 +154,6 @@
                     x: {
                         grid: {
                             display: false
-                        },
-                        title: {
-                            display: true,
-                            text: 'Range (µm)' // Add the label for the x-axis here
                         }
                     },
                     y: {
@@ -165,10 +161,6 @@
                         grid: {
                             color: '#ddd'
                         },
-                        title: {
-                            display: true,
-                            text: 'Number Frequency' // Add the label for the x-axis here
-                        }
                         ticks: {
                             stepSize: 1, // Adjust the step size as needed
                             callback: function (value) {
