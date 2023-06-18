@@ -154,6 +154,10 @@
                     x: {
                         grid: {
                             display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Range (µm)'
                         }
                     },
                     y: {
@@ -166,10 +170,15 @@
                             callback: function (value) {
                                 return (value).toFixed(0);
                             }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number Frequency'
                         }
                     }
                 }
             }
+
         });
     
         function copyChart() {
