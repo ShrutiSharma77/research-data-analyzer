@@ -14,13 +14,21 @@ def home():
 
 @app.route('/process', methods=['POST'])
 def process():
-    xlsx_file = request.files['file']
-    column_number = int(request.form['column'])-1
+    file = request.files['file']
+    column_number = int(request.form['column']) - 1
 
-    if xlsx_file:
-        df = pd.read_excel(xlsx_file)
+    if file:
+        # Check the file extension
+        if file.filename.endswith('.xlsx'):
+            df = pd.read_excel(file)
+        elif file.filename.endswith('.csv'):
+            df = pd.read_csv(file)
+        else:
+            return "Unsupported file format."
+
         if column_number < 0 or column_number >= df.shape[1]:
             return "Invalid column number."
+
         selected_column = df.iloc[:, column_number]
 
         averages = []
@@ -33,18 +41,13 @@ def process():
 
         averages_flattened = avg_dia.flatten()
 
-        j = 1
-        average_values = []
-        for value in averages_flattened:
-            average_values.append(f"{value:.4f}")  # Remove the braces and format the value
-            j = j + 1
+        average_values = [f"{value:.4f}" for value in averages_flattened]
 
         session['avg_dia'] = avg_dia.tolist()
         total_grains = len(avg_dia)
 
-        return render_template('result.html', selected_column=selected_column.tolist(), averages=average_values, avg_dia=avg_dia,total_grains=total_grains)
-        
-    
+        return render_template('result.html', selected_column=selected_column.tolist(), averages=average_values, avg_dia=avg_dia, total_grains=total_grains)
+
     return "No file uploaded."
 
 @app.route('/chart', methods=['POST'])
