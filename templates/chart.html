@@ -35,10 +35,14 @@
             padding: 8px;
             text-align: center; 
             border-bottom: 1px solid #ddd;
+            padding-right: 20px;
         }
 
         th {
             font-weight: bold;
+        }
+        .narrow {
+            padding-left: 150px;
         }
 
         .footer {
@@ -85,14 +89,14 @@
     <table>
         <tr>
             <th>Range (µm)</th>
-            <th>Number of Grains</th>
+            <th class="narrow">Number of Grains</th>
             <th>Number of Grains/Total Grains</th>
         </tr>
         {% for i in range(x|length) %}
 
         <tr>
             <td>{{ x[i] }}</td>
-            <td>{{ y_new[i] }}</td>
+            <td class="narrow">{{ y_new[i] }}</td>
             <td>{{ normalized_y[i] }}</td>
         </tr>
         {% endfor %}
