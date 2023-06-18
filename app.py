@@ -15,7 +15,7 @@ def home():
 @app.route('/process', methods=['POST'])
 def process():
     xlsx_file = request.files['file']
-    column_number = int(request.form['column'])
+    column_number = int(request.form['column'])-1
 
     if xlsx_file:
         df = pd.read_excel(xlsx_file)
@@ -40,8 +40,9 @@ def process():
             j = j + 1
 
         session['avg_dia'] = avg_dia.tolist()
+        total_grains = len(avg_dia)
 
-        return render_template('result.html', selected_column=selected_column.tolist(), averages=average_values, avg_dia=avg_dia)
+        return render_template('result.html', selected_column=selected_column.tolist(), averages=average_values, avg_dia=avg_dia,total_grains=total_grains)
         
     
     return "No file uploaded."

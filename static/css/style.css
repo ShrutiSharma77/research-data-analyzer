@@ -83,3 +83,7 @@ input[type="submit"] {
 .output-item .filename {
     flex-grow: 1;
 }
+#note{
+    font-weight: lighter;
+    font-size: 13px;
+}

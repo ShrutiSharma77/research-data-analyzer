@@ -57,6 +57,10 @@
             {% endfor %}
         </table>
 
+        <div class="footer">
+            <p>Total Number of Grains: {{ total_grains }}</p>
+        </div>
+
         <form action="/chart" method="post">
             <label for="range">Enter Range:</label>
             <input type="number" id="range" name="range" min="0" max="100" value="0" step="1">
