@@ -55,8 +55,39 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        .print-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .print-button:hover {
+            background-color: #0056b3;
+        }
+        .download-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .download-button:hover {
+            background-color: #218838;
+        }
+
+
         
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+
 </head>
 <body>
 
@@ -82,7 +113,9 @@
         </div>
     </div>
 
-   
+    <button onclick="window.print()" class="print-button">Print</button>
+    <a href="#" id="download-button" class="download-button">Download as JPEG</a>
+
 
     <script>
         var ctx = document.getElementById('myChart').getContext('2d');
@@ -142,6 +175,29 @@
                 }
             }
         });
+
+        // JavaScript code
+        var downloadButton = document.getElementById('download-button');
+        downloadButton.addEventListener('click', function() {
+            // Hide the buttons before capturing the image
+            var printButton = document.querySelector('.print-button');
+            var downloadButton = document.querySelector('.download-button');
+            printButton.style.display = 'none';
+            downloadButton.style.display = 'none';
+
+            domtoimage.toJpeg(document.body, { bgcolor: '#ffffff' }) // Set the background color to white
+                .then(function(dataUrl) {
+                    var link = document.createElement('a');
+                    link.download = 'chart.jpg';
+                    link.href = dataUrl;
+                    link.click();
+
+                    // Show the buttons after capturing the image
+                    printButton.style.display = 'block';
+                    downloadButton.style.display = 'block';
+                });
+        });
+
     
     </script>
     
